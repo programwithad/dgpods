@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PodStay - Modern Capsule Living</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #2563eb;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: #fff;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1e293b;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #475569;
+        }
+
+        /* Pod Cards */
+        .pod-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pod-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .pod-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .pod-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .pod-content {
+            padding: 1.5rem;
+        }
+
+        .pod-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .pod-content p {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .pod-price {
+            font-size: 1.3rem;
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            color: #64748b;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #334155;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #2563eb;
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                text-align: center;
+                transition: left 0.3s;
+                padding: 2rem 0;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">🏠 PodStay</div>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active" onclick="showPage('home')">Home</a></li>
+                    <li><a href="#pods" class="nav-link" onclick="showPage('pods')">Pods</a></li>
+                    <li><a href="#booking" class="nav-link" onclick="showPage('booking')">Booking</a></li>
+                    <li><a href="#about" class="nav-link" onclick="showPage('about')">About</a></li>
+                    <li><a href="#contact" class="nav-link" onclick="showPage('contact')">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="container">
+                <h1>Welcome to PodStay</h1>
+                <p>Experience the future of smart, affordable living with our premium capsule pods</p>
+                <a href="#booking" class="btn" onclick="showPage('booking')">Book a Pod</a>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2 class="section-title">Why Choose PodStay?</h2>
+                <div class="about-content">
+                    <p>PodStay offers modern capsule rooms designed for travelers, professionals, and anyone seeking affordable, private, and comfortable short-term accommodation. Our pods combine privacy, technology, and comfort to give you the perfect rest experience without breaking the bank.</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: white;">
+            <div class="container">
+                <h2 class="section-title">Featured Pods</h2>
+                <div class="pod-grid">
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500" alt="Single Sleep Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Single Sleep Pod</h3>
+                            <p>Perfect for solo travelers. Compact, cozy, and equipped with all essentials.</p>
+                            <div class="pod-price">₹499/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=500" alt="Deluxe Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Deluxe Pod</h3>
+                            <p>Extra space with premium amenities. Perfect for extended stays.</p>
+                            <div class="pod-price">₹799/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500" alt="Double Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Double Pod</h3>
+                            <p>Spacious pod for two. Ideal for couples or friends traveling together.</p>
+                            <div class="pod-price">₹999/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" alt="Executive Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Executive Pod</h3>
+                            <p>Premium pod with workspace, perfect for business travelers.</p>
+                            <div class="pod-price">₹1,299/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Pods Page -->
+    <div id="pods" class="page">
+        <section style="background: white; padding-top: 4rem;">
+            <div class="container">
+                <h2 class="section-title">Our Pod Collection</h2>
+                <div class="pod-grid">
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500" alt="Single Sleep Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Single Sleep Pod</h3>
+                            <p>Perfect for solo travelers. Compact, cozy, and equipped with all essentials including LED reading light, USB charging ports, and personal locker.</p>
+                            <div class="pod-price">₹499/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=500" alt="Deluxe Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Deluxe Pod</h3>
+                            <p>Extra space with premium amenities including smart TV, climate control, and premium bedding. Perfect for extended stays.</p>
+                            <div class="pod-price">₹799/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500" alt="Double Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Double Pod</h3>
+                            <p>Spacious pod for two with comfortable double bed. Ideal for couples or friends traveling together. Includes shared entertainment system.</p>
+                            <div class="pod-price">₹999/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" alt="Executive Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Executive Pod</h3>
+                            <p>Premium pod with dedicated workspace, ergonomic chair, and high-speed WiFi. Perfect for business travelers and digital nomads.</p>
+                            <div class="pod-price">₹1,299/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=500" alt="Family Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Family Pod</h3>
+                            <p>Spacious pod accommodating up to 4 guests. Features bunk beds and ample storage space. Great for families on vacation.</p>
+                            <div class="pod-price">₹1,599/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="pod-card">
+                        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=500" alt="Luxury Suite Pod" class="pod-image">
+                        <div class="pod-content">
+                            <h3>Luxury Suite Pod</h3>
+                            <p>Our premium offering with ensuite bathroom, mini-fridge, and luxury amenities. Experience capsule living at its finest.</p>
+                            <div class="pod-price">₹1,999/night</div>
+                            <a href="#booking" class="btn btn-primary" onclick="showPage('booking')">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Booking Page -->
+    <div id="booking" class="page">
+        <section style="background: white; padding-top: 4rem;">
+            <div class="container">
+                <h2 class="section-title">Book Your Pod</h2>
+                <div class="form-container">
+                    <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="podType">Pod Type *</label>
+                            <select id="podType" name="podType" required>
+                                <option value="">Select a pod type</option>
+                                <option value="single">Single Sleep Pod - ₹499/night</option>
+                                <option value="deluxe">Deluxe Pod - ₹799/night</option>
+                                <option value="double">Double Pod - ₹999/night</option>
+                                <option value="executive">Executive Pod - ₹1,299/night</option>
+                                <option value="family">Family Pod - ₹1,599/night</option>
+                                <option value="luxury">Luxury Suite Pod - ₹1,999/night</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkin">Check-in Date *</label>
+                            <input type="date" id="checkin" name="checkin" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkout">Check-out Date *</label>
+                            <input type="date" id="checkout" name="checkout" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guests">Number of Guests *</label>
+                            <input type="number" id="guests" name="guests" min="1" max="4" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Booking Request</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <section style="background: white; padding-top: 4rem;">
+            <div class="container">
+                <h2 class="section-title">About PodStay</h2>
+                <div class="about-content">
+                    <p style="margin-bottom: 1.5rem;">PodStay was founded with a simple mission: to revolutionize the way people think about short-term accommodation. We believe that comfort, privacy, and affordability shouldn't be mutually exclusive. Our capsule pods represent the future of smart living, combining innovative design with practical functionality.</p>
+                    
+                    <p style="margin-bottom: 1.5rem;">Each PodStay location is strategically placed in urban centers, near transportation hubs, and popular destinations. We cater to diverse travelers - from backpackers and solo adventurers to business professionals and small families. Our pods are equipped with modern amenities, secure storage, and everything you need for a comfortable stay.</p>
+                    
+                    <p>We're committed to sustainability and efficiency. Our compact design reduces environmental impact while maximizing comfort. Join thousands of satisfied guests who have discovered the PodStay difference.</p>
+                </div>
+
+                <h2 class="section-title" style="margin-top: 4rem;">What Our Guests Say</h2>
+                <div class="testimonials">
+                    <div class="testimonial-card">
+                        <p>"Amazing experience! The pod was clean, comfortable, and had everything I needed for my overnight stay. Much better than traditional hostels and more affordable than hotels."</p>
+                        <div class="testimonial-author">- Priya Sharma, Mumbai</div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <p>"As a frequent business traveler, PodStay has become my go-to choice. The executive pod has a great workspace, and the location is always convenient. Highly recommended!"</p>
+                        <div class="testimonial-author">- Rahul Verma, Delhi</div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <p>"Perfect for budget travelers! My friend and I stayed in the double pod and it was spacious, private, and well-maintained. Will definitely book again on our next trip."</p>
+                        <div class="testimonial-author">- Ananya Desai, Bangalore</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <section style="background: white; padding-top: 4rem;">
+            <div class="container">
+                <h2 class="section-title">Get in Touch</h2>
+                
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <p><strong>Address:</strong> 123 Urban Plaza, MG Road, Bangalore - 560001, India</p>
+                    <p><strong>Phone:</strong> +91 98765 43210</p>
+                    <p><strong>Email:</strong> hello@podstay.com</p>
+                    <p><strong>Business Hours:</strong> 24/7 Support Available</p>
+                </div>
+
+                <div class="form-container">
+                    <h3 style="margin-bottom: 1.5rem; text-align: center;">Send Us a Message</h3>
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                        <div class="form-group">
+                            <label for="contactName">Your Name *</label>
+                            <input type="text" id="contactName" name="contactName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactEmail">Your Email *</label>
+                            <input type="email" id="contactEmail" name="contactEmail" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>PodStay</h3>
+                    <p>Redefining affordable comfort with modern capsule living solutions.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Twitter">T</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="LinkedIn">in</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#home" onclick="showPage('home')">Home</a>
+                    <a href="#pods" onclick="showPage('pods')">Our Pods</a>
+                    <a href="#booking" onclick="showPage('booking')">Book Now</a>
+                    <a href="#about" onclick="showPage('about')">About Us</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>123 Urban Plaza, MG Road</p>
+                    <p>Bangalore - 560001, India</p>
+                    <p>Phone: +91 98765 43210</p>
+                    <p>Email: hello@podstay.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page navigation
+        function showPage(pageName) {
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.getElementById(pageName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Close mobile menu after click
+            document.querySelector('.nav-links').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // Booking form submission
+        function handleBookingSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const podType = document.getElementById('podType').selectedOptions[0].text;
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            
+            alert(`Booking request submitted successfully!\n\nThank you, ${name}!\n\nBooking Details:\nPod: ${podType}\nCheck-in: ${checkin}\nCheck-out: ${checkout}\n\nWe will send a confirmation email to ${email} shortly.`);
+            
+            event.target.reset();
+        }
+
+        // Contact form submission
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            
+            alert(`Message sent successfully!\n\nThank you for contacting us, ${name}! We'll respond to ${email} within 24 hours.`);
+            
+            event.target.reset();
+        }
+
+        // Set minimum date for booking
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            const checkinInput = document.getElementById('checkin');
+            const checkoutInput = document.getElementById('checkout');
+            
+            if (checkinInput) {
+                checkinInput.setAttribute('min', today);
+                checkinInput.addEventListener('change', function() {
+                    checkoutInput.setAttribute('min', this.value);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
